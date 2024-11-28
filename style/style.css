@@ -1,0 +1,51 @@
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 1rem;
+    background-color: rgba(180, 245, 245, 0.603);
+}
+
+.container{
+    width: 80%;
+    max-width: 1125px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 0 auto;
+    height: 100vh;
+}
+
+table, td{
+    border: .5rem solid black;
+    text-align: center;
+}
+table{
+    width: 90%;
+}
+td{
+    padding: 4rem;
+    font-size: 2rem;
+    font-weight: 900;
+}
+
+.inp{
+    background-color: teal;
+    border: .75rem solid black;
+    padding: 2.5rem;
+    width: 90%;
+    text-align: right;
+    font-size: 5rem;
+}
+
+.sign{
+    background-color: magenta;
+}
+
+.num{
+    background-color: gold;
+}
