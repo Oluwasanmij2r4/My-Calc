@@ -25,11 +25,21 @@ parentButton.addEventListener("click", (e) => {
   if (e.target.tagName === "TD") {
     const value = e.target.innerText;
 
+    if(value === '+/-'){
+      if(firstNumber.startsWith('-')){
+      firstNumber = firstNumber.slice(1);
+      } else if (firstNumber !== ''){
+      firstNumber = '-' + firstNumber;
+      }
+      display.value = firstNumber;
+      return
+    }
+
     
-    if (operator === "") {
+    if (value !== '+/-' && operator === "") {
       firstNumber += value;
       display.value = firstNumber;
-    } else {
+    } else if (value !=='+/-'){
       secondNumber += value;
       display.value = secondNumber;
     }
@@ -59,6 +69,12 @@ const multiply = (a, b) => {
   return times;
 };
 
+const factorial = (a) => {
+  for(let i = 0; i < a; i++) {
+    let num = 1;
+    num *= (a-i);
+  }
+}
 
 const equalTo = document.querySelector('.equal')
 
