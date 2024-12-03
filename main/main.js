@@ -7,6 +7,7 @@ let firstNumber = "";
 let secondNumber = "";
 let operator = "";
 let previousButton = null;
+let currentOperator = null;
 
 display.value = "0";
 
@@ -21,12 +22,18 @@ parentButton.addEventListener("click", (e) => {
 
         previousButton = e.target;
 
+        if (["+", "-", "*", "/"].includes(operator)) {
+  if (firstNumber !== "" && secondNumber !== "") {
+    operate(); 
+  }
+}
+
     operator = e.target.innerText;
     if(operator === 'AC'){
       firstNumber = '';
-      display.value = '0';
       secondNumber = '';
       operator = '';
+      display.value = "0";
     }
   }
 
@@ -45,6 +52,16 @@ parentButton.addEventListener("click", (e) => {
       display.value = firstNumber;
       return
     }
+
+      if (value === ".") {
+        if (firstNumber.endsWith('.')) {
+          firstNumber = firstNumber.replace('.', '');
+        } else if (firstNumber != "") {
+          firstNumber = firstNumber + '.';
+        }
+        display.value = firstNumber;
+        return;
+      }
 
     
     if (value !== '+/-' && operator === "") {
@@ -99,15 +116,16 @@ const percentage = (a) => {
 
 const operate = () => {
     if(operator === '+'){
-         const num1 = parseFloat(firstNumber);
-        const num2 = parseFloat(secondNumber);
-        const result = addition(num1, num2);
+      let num1 = parseFloat(firstNumber);
+      let num2 = parseFloat(secondNumber);
+      const result = addition(num1, num2);
 
-        display.value = result;
+
+      display.value = result;
 
         firstNumber = result;
         secondNumber = '';
-        result = '';
+        // result = '';
     }
 
     if (operator === "-") {
@@ -119,7 +137,7 @@ const operate = () => {
 
       firstNumber = result;
       secondNumber = "";
-      result = "";
+      // result = "";
     }
 
      if (operator === "*") {
@@ -131,7 +149,7 @@ const operate = () => {
 
        firstNumber = result;
        secondNumber = "";
-       result = "";
+      //  result = "";
      }
 
       if (operator === "/") {
@@ -143,7 +161,7 @@ const operate = () => {
 
         firstNumber = result;
         secondNumber = "";
-        result = "";
+        // result = "";
       }
     
 }
