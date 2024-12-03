@@ -1,7 +1,8 @@
 const parentButton = document.querySelector("main");
 const display = document.querySelector("input");
 const equalTo = document.querySelector(".equal");
-const fact = document.querySelector(".fact")
+const fact = document.querySelector(".fact");
+const percent = document.querySelector(".percent");
 let firstNumber = "";
 let secondNumber = "";
 let operator = "";
@@ -21,6 +22,12 @@ parentButton.addEventListener("click", (e) => {
         previousButton = e.target;
 
     operator = e.target.innerText;
+    if(operator === 'AC'){
+      firstNumber = '';
+      display.value = '0';
+      secondNumber = '';
+      operator = '';
+    }
   }
 
   
@@ -32,6 +39,8 @@ parentButton.addEventListener("click", (e) => {
       firstNumber = firstNumber.slice(1);
       } else if (firstNumber !== ''){
       firstNumber = '-' + firstNumber;
+      } else if (value = '0'){
+        display.value = 0;
       }
       display.value = firstNumber;
       return
@@ -76,8 +85,15 @@ const factorial = (a) => {
   for(let i = 1; i <= a; i++) {
     num *= (i);
   }
+  firstNumber = num.toString();
   display.value = num;
 };
+
+const percentage = (a) => {
+  let result = a/100
+  firstNumber = result.toString();
+  display.value = result;
+}
 
 
 
@@ -134,14 +150,11 @@ const operate = () => {
 equalTo.addEventListener('click', operate);
 
 fact.addEventListener('click', () =>{
-  secondNumber ='';
   const a = parseFloat(display.value);
   factorial(a);
 });
 
-// fact.addEventListener("click", () => {
-//   factorial(Number(firstNumber));
-// });
-
-
-
+percent.addEventListener('click', () =>{
+  const a = parseFloat(display.value);
+  percentage(a)
+})
