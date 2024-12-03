@@ -1,5 +1,7 @@
 const parentButton = document.querySelector("main");
 const display = document.querySelector("input");
+const equalTo = document.querySelector(".equal");
+const fact = document.querySelector(".fact")
 let firstNumber = "";
 let secondNumber = "";
 let operator = "";
@@ -70,13 +72,14 @@ const multiply = (a, b) => {
 };
 
 const factorial = (a) => {
-  for(let i = 0; i < a; i++) {
-    let num = 1;
-    num *= (a-i);
+  let num = 1;
+  for(let i = 1; i <= a; i++) {
+    num *= (i);
   }
-}
+  display.value = num;
+};
 
-const equalTo = document.querySelector('.equal')
+
 
 const operate = () => {
     if(operator === '+'){
@@ -130,40 +133,15 @@ const operate = () => {
 }
 equalTo.addEventListener('click', operate);
 
-// parentButton.addEventListener('click', (evt) =>{
-//     if (evt.target.tagName === 'TD') {
-//          const value = evt.target.innerText;
+fact.addEventListener('click', () =>{
+  secondNumber ='';
+  const a = parseFloat(display.value);
+  factorial(a);
+});
 
-//          if ((operator === "")) {
-//            firstNumber += value;
-//            display.value = firstNumber;
-//          } else {
-//            secondNumber += value;
-//            display.value = secondNumber;
-//          }
-
-//     if (value === '+'){
-//         operator = '+';
-//         display.value = '';
-//     } else if (value === "=") {
-//         const num1 = parseFloat(firstNumber);
-//         const num2 = parseFloat(secondNumber);
-//         const sum = num1 + num2;
-//         display.value = sum;
-
-//         secondNumber = '';
-//         operator = '';
-//     }
-// }
-
-// })
-
-// parentButton.addEventListener("click", (evt) => {
-//   if (evt.target.tagName === "TD") {
-//     display.value = '';
-
-//     secondNumber = evt.target.innerText;
-//     display.value = secondNumber;
-//     console.log(secondNumber);
-//   }
+// fact.addEventListener("click", () => {
+//   factorial(Number(firstNumber));
 // });
+
+
+
