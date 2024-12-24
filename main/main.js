@@ -8,11 +8,12 @@ let secondNumber = "";
 let operator = "";
 let previousButton = null;
 let currentOperator = null;
+let isOperatorSelected = false;
 
 display.value = "0";
 
 parentButton.addEventListener("click", (e) => {
-
+const value = e.target.innerText;
 
     if (e.target.tagName === "TH") {
         if (previousButton) {
@@ -22,54 +23,94 @@ parentButton.addEventListener("click", (e) => {
 
         previousButton = e.target;
 
-        if (["+", "-", "*", "/"].includes(operator)) {
+        if (["+", "-", "*", "/"].includes(value)) {
   if (firstNumber !== "" && secondNumber !== "") {
     operate(); 
   }
+
+   operator = value;
+   isOperatorSelected = true; 
+   return;
 }
 
-    operator = e.target.innerText;
-    if(operator === 'AC'){
+
+    if(value === 'AC'){
       firstNumber = '';
       secondNumber = '';
       operator = '';
+      isOperatorSelected = false;
       display.value = "0";
+      return
     }
   }
 
   
   if (e.target.tagName === "TD") {
-    const value = e.target.innerText;
 
     if(value === '+/-'){
-      if(firstNumber.startsWith('-')){
-      firstNumber = firstNumber.slice(1);
-      } else if (firstNumber !== ''){
-      firstNumber = '-' + firstNumber;
-      } else if (value = '0'){
-        display.value = 0;
+      if (isOperatorSelected && secondNumber) {
+        if (secondNumber.startsWith("-")) {
+          secondNumber = secondNumber.slice(1);
+        } else {
+          secondNumber = "-" + secondNumber;
+        }
+        display.value = secondNumber;
+      } 
+      
+      else if (firstNumber !== "") {
+        if (firstNumber.startsWith("-")) {
+          firstNumber = firstNumber.slice(1);
+        } else {
+          firstNumber = "-" + firstNumber;
+        }
+        display.value = firstNumber;
       }
-      display.value = firstNumber;
+
       return
     }
 
+    // if (value === "+/-") {
+    //   if (isOperatorSelected && secondNumber) {
+    //     secondNumber = secondNumber.startsWith("-")
+    //       ? secondNumber.slice(1)
+    //       : "-" + secondNumber;
+    //     display.value = secondNumber;
+    //   } else if (firstNumber) {
+    //     firstNumber = firstNumber.startsWith("-")
+    //       ? firstNumber.slice(1)
+    //       : "-" + firstNumber;
+    //     display.value = firstNumber;
+    //   }
+    //   return;
+    // }
+
+
       if (value === ".") {
-        if (firstNumber.endsWith('.')) {
-          firstNumber = firstNumber.replace('.', '');
-        } else if (firstNumber != "") {
-          firstNumber = firstNumber + '.';
+        if (isOperatorSelected) {
+          if (!secondNumber.includes(".")) {
+            secondNumber = secondNumber || "0"
+            secondNumber += ".";
+          }
+          display.value = secondNumber; 
+        } else {
+          if (!firstNumber.includes(".")) {
+            firstNumber = firstNumber || "0"
+            firstNumber += ".";
+          }
+          display.value = firstNumber;
         }
-        display.value = firstNumber;
+
+
         return;
       }
 
     
-    if (value !== '+/-' && operator === "") {
-      firstNumber += value;
-      display.value = firstNumber;
-    } else if (value !=='+/-'){
+    if (isOperatorSelected) {
       secondNumber += value;
       display.value = secondNumber;
+    } else if (value !=='+/-'){
+      firstNumber += value;
+      display.value = firstNumber;
     }
   }
 });
@@ -113,58 +154,27 @@ const percentage = (a) => {
 }
 
 
-
 const operate = () => {
-    if(operator === '+'){
-      let num1 = parseFloat(firstNumber);
-      let num2 = parseFloat(secondNumber);
-      const result = addition(num1, num2);
+  let result;
+
+  // Perform the operation based on the operator
+  if (operator === "+") {
+    result = parseFloat(firstNumber) + parseFloat(secondNumber);
+  } else if (operator === "-") {
+    result = parseFloat(firstNumber) - parseFloat(secondNumber);
+  } else if (operator === "*") {
+    result = parseFloat(firstNumber) * parseFloat(secondNumber);
+  } else if (operator === "/") {
+    result = parseFloat(firstNumber) / parseFloat(secondNumber);
+  }
+
+  display.value = result;
 
 
-      display.value = result;
-
-        firstNumber = result;
-        secondNumber = '';
-        // result = '';
-    }
-
-    if (operator === "-") {
-      const num1 = parseFloat(firstNumber);
-      const num2 = parseFloat(secondNumber);
-      const result = subtract(num1, num2);
-
-      display.value = result;
-
-      firstNumber = result;
-      secondNumber = "";
-      // result = "";
-    }
-
-     if (operator === "*") {
-       const num1 = parseFloat(firstNumber);
-       const num2 = parseFloat(secondNumber);
-       const result = multiply(num1, num2);
-
-       display.value = result;
-
-       firstNumber = result;
-       secondNumber = "";
-      //  result = "";
-     }
-
-      if (operator === "/") {
-        const num1 = parseFloat(firstNumber);
-        const num2 = parseFloat(secondNumber);
-        const result = Math.round((division(num1, num2)) * 1000000)/ 1000000;
-
-        display.value = result;
-
-        firstNumber = result;
-        secondNumber = "";
-        // result = "";
-      }
-    
-}
+  firstNumber = result.toString();  
+  secondNumber = "";
+  isOperatorSelected = false;
+};
 equalTo.addEventListener('click', operate);
 
 fact.addEventListener('click', () =>{
